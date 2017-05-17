@@ -1,6 +1,6 @@
 
 # 2017-05-17
-# My daily #1
+# Task #1
 # Challenge #239, published 2015-11-02
 # Game of Threes
 
