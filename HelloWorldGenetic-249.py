@@ -35,9 +35,22 @@ def kickoff():
 
 def runner(phrase, guess):
     error = findError(phrase, guess)
+    if error == 0:
+        print("Done!")
+        kickoff()
+    else:
+        guess = randomString(len(phrase))
+        runner(phrase, guess)
 
 def findError(phrase, guess):
-    
+    error = 0
+    for position in range(len(phrase)):
+        if(phrase[position] != guess[position]):
+            error = error + 1
+        else:
+            pass
+    print("Errors: " + str(error))
+    return error
 
 def randomString(length):
     letters = ("abcdefghijklmnopqrstuvwxyz")
