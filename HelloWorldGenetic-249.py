@@ -26,39 +26,55 @@ generation to the output phrase as quickly as possible!
 
 def start():
     print("This program will evolve its output text until it matches the input text")
-    kickoff()
+    runner()
 
-def kickoff():
-    phrase = input("Input a string:\n")
-    guess = randomString(len(phrase)).lower()
-    runner(phrase, guess)
 
-def runner(phrase, guess):
-    error = findError(phrase, guess)
-    if error == 0:
-        print("Done!")
-        kickoff()
-    else:
-        guess = randomString(len(phrase))
-        runner(phrase, guess)
+def runner():
+    phrase = input("Input a string:\n").lower()
+    guess = randomString(len(phrase))
+    generation = 0
+    while(True):
+        generation = generation + 1
+        errorList = findError(phrase, guess)
+        error = sum(errorList)
+        if error == 0:
+            print("Done!\nGen: " + str(generation) + "; In: " + phrase)
+            kickoff()
+        else:
+            print(guess + " - G: " + str(generation) + "; E: " + str(error))
+            guess = guessAdjust(guess, errorList)
 
-def findError(phrase, guess):
-    error = 0
-    for position in range(len(phrase)):
-        if(phrase[position] != guess[position]):
-            error = error + 1
+def guessAdjust(guess, errorList):
+    newGuess = list(guess)
+    position = 0
+    while position < len(newGuess) - 1:
+        if errorList[position] == 1:
+            newGuess[position] = randomLetter()
         else:
             pass
-    print("Errors: " + str(error))
-    return error
+        position = position + 1
+    return "".join(newGuess)
+    
+
+def findError(phrase, guess):
+    errorList = []
+    for position in range(len(phrase)):
+        if(phrase[position] != guess[position]):
+            errorList.append(1)
+            print(errorList)
+        else:
+            errorList.append(0)
+    return errorList
 
 def randomString(length):
-    letters = ("abcdefghijklmnopqrstuvwxyz")
     randString = ""
     for char in range(length):
-        randString = randString + random.choice(letters)
-    print(randString)
+        randString = randString + randomLetter()
     return randString
+
+def randomLetter():
+    letters = ("abcdefghijklmnopqrstuvwxyz")
+    return random.choice(letters)
 
 
 start()
