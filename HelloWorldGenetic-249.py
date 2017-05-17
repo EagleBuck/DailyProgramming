@@ -39,7 +39,7 @@ def runner():
         error = sum(errorList)
         if error == 0:
             print("Done!\nGen: " + str(generation) + "; In: " + phrase)
-            kickoff()
+            runner()
         else:
             print(guess + " - G: " + str(generation) + "; E: " + str(error))
             guess = guessAdjust(guess, errorList)
@@ -47,7 +47,8 @@ def runner():
 def guessAdjust(guess, errorList):
     newGuess = list(guess)
     position = 0
-    while position < len(newGuess) - 1:
+    print(errorList)
+    while position < len(newGuess):
         if errorList[position] == 1:
             newGuess[position] = randomLetter()
         else:
@@ -61,7 +62,6 @@ def findError(phrase, guess):
     for position in range(len(phrase)):
         if(phrase[position] != guess[position]):
             errorList.append(1)
-            print(errorList)
         else:
             errorList.append(0)
     return errorList
